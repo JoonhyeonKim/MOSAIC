@@ -59,7 +59,7 @@ nano modules/config.yaml
 
 ### Run
 ```bash 
-python3 run_mosaic.py
+python3 mosaic.py
 ```
 
 ## 🌍 Use Cases
