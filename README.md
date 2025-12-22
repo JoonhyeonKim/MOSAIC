@@ -184,7 +184,7 @@ By using MOSAIC, you agree to use it **ethically, responsibly, and legally**.
 ## 🤝 Community & Contributions
 
 Questions, ideas, or research directions?
-- 📧 Email: Or1un@proton.me
+- 📧 Email: Contact_Mosaic@proton.me
 - 🐛 Issues: GitHub Issues
 - 💡 Discussions: GitHub Discussions
 - 📖 Wiki: coming soon
