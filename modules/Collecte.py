@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Mosaic v2.0
-Unified extraction system for all social platforms
-Author: Or1un
-"""
-
 import sys
 import os
 import json
