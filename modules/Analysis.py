@@ -200,6 +200,39 @@ class Analysis:
         
         with open(data_file, 'r', encoding='utf-8') as f:
             return json.load(f)
+
+    def _summarize_data(self, data, max_items=5, max_text=200):
+        """
+        Reduce input size for LLM by trimming lists and long strings.
+        Keeps basic counts and a small sample for each list.
+        """
+        def _trim_value(value):
+            if isinstance(value, str) and len(value) > max_text:
+                return value[:max_text] + "..."
+            return value
+
+        def _summarize(obj):
+            if isinstance(obj, dict):
+                summary = {}
+                for key, value in obj.items():
+                    if isinstance(value, list):
+                        summary[key] = {
+                            "count": len(value),
+                            "sample": [_summarize(v) for v in value[:max_items]],
+                        }
+                    elif isinstance(value, dict):
+                        summary[key] = _summarize(value)
+                    else:
+                        summary[key] = _trim_value(value)
+                return summary
+            if isinstance(obj, list):
+                return {
+                    "count": len(obj),
+                    "sample": [_summarize(v) for v in obj[:max_items]],
+                }
+            return _trim_value(obj)
+
+        return _summarize(data)
     
     def display_menu(self, title, options):
         """Display interactive menu using shared UI"""
@@ -283,7 +316,8 @@ class Analysis:
         self.ui.space()
         self.ui.step(f"Loading data: {data_filename}")
         data = self.read_data(data_filename)
-        data_str = json.dumps(data, indent=2)
+        data_summary = self._summarize_data(data)
+        data_str = json.dumps(data_summary, indent=2)
         
         with self.ui.indent():
             self.ui.success(f"Data loaded ({len(data_str)} characters)")
